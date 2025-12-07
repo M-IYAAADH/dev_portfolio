@@ -39,9 +39,9 @@ def index(request):
     context = {
         'projects': projects,
         'skills': skills,
-        'name': 'Mohamed Iyaadh',
+        'name': 'Mohamed Iyaadh Ahmed',
         'email': 'mohamediyaadh144@gmail.com',
-        'github': 'https://github.com/iyaadh',
+        'github': 'https://github.com/M-IYAAADH',
         'linkedin': '#'  # Add your LinkedIn URL
     }
     
