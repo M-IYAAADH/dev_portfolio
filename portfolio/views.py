@@ -9,7 +9,7 @@ def index(request):
             'description': 'A full-stack e-commerce site with product listings, cart, checkout, and admin dashboard.',
             'tech': ['Django', 'HTML', 'CSS', 'JavaScript', 'PostgreSQL'],
             'github': 'https://github.com/M-IYAAADH/huckberry_project',
-            'demo': 'https://huckberry-demo.example.com',
+            'demo': 'https://huckberry-project.onrender.com/',
             'featured': True
         },
         {
