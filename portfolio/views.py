@@ -16,7 +16,7 @@ def index(request):
             'title': 'Fitness & Health Tracker',
             'description': 'CLI-based tracker with roles: Admin, Trainer, Member. Track workouts, nutrition, and progress.',
             'tech': ['Python', 'SQLite', 'CLI'],
-            'github': 'https://github.com/iyaadh/fitness-health-tracker',
+            'github': 'https://github.com/M-IYAAADH/Fitness-Health-Tracker',
             'demo': None,
             'featured': False
         },
