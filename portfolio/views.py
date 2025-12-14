@@ -27,7 +27,16 @@ def index(request):
             'github': 'https://github.com/iyaadh/work-management-system',
             'demo': None,
             'featured': True
+        },
+        {
+            'title': 'Finance Tracker System',
+            'description': 'A .NET Web API for managing personal finance data such as users, income, and expenses..',
+            'tech': ['C#', 'PostgreSQL', 'EF Core', 'REST API','.Net'],
+            'github': 'https://github.com/M-IYAAADH/finance-tracker-backend',
+            'demo': None,
+            'featured': True
         }
+
     ]
     
     skills = {
