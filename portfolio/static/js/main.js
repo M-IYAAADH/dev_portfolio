@@ -14,19 +14,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (navToggle && navMenu) {
         navToggle.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
             navToggle.classList.toggle('active');
+            navMenu.classList.toggle('active');
         });
     }
 
     navLinks.forEach(link => {
         link.addEventListener('click', () => {
-            if (window.innerWidth <= 768 && navMenu && navToggle) {
-                navMenu.classList.remove('active');
-                navToggle.classList.remove('active');
-            }
+            navToggle.classList.remove('active');
+            navMenu.classList.remove('active');
         });
     });
+
 
     /* =========================
        Smooth Scroll
@@ -85,8 +84,16 @@ document.addEventListener('DOMContentLoaded', function () {
         observer.observe(section);
     });
 
+    navMenu.addEventListener('click', (e) => {
+    if (e.target === navMenu) {
+        navToggle.classList.remove('active');
+        navMenu.classList.remove('active');
+    }
+    });
+
+
     /* =========================
-       Sticky / Magnetic Cursor
+       Ultra Smooth Magnetic Cursor
     ========================= */
 
     if (!window.matchMedia('(pointer: fine)').matches) return;
@@ -96,28 +103,51 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let mouseX = 0, mouseY = 0;
     let cursorX = 0, cursorY = 0;
+    let velocityX = 0, velocityY = 0;
+
     let isHovering = false;
     let hoverTarget = null;
 
-    // Track real mouse
+    // 🔧 Tuning values (these control smoothness)
+    const ATTRACTION = 0.08;   // lower = smoother
+    const MAGNETIC_BOOST = 0.18; // extra force on buttons
+    const FRICTION = 0.78;     // closer to 1 = smoother
+    const MAX_DISTANCE = 180;  // magnetic radius
+
     document.addEventListener('mousemove', e => {
         mouseX = e.clientX;
         mouseY = e.clientY;
     });
 
-    // Smooth cursor animation
     function animateCursor() {
         let targetX = mouseX;
         let targetY = mouseY;
+        let strength = ATTRACTION;
 
         if (isHovering && hoverTarget) {
             const rect = hoverTarget.getBoundingClientRect();
-            targetX = rect.left + rect.width / 2;
-            targetY = rect.top + rect.height / 2;
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            const dx = centerX - cursorX;
+            const dy = centerY - cursorY;
+            const distance = Math.hypot(dx, dy);
+
+            const force = Math.min(distance / MAX_DISTANCE, 1);
+            strength += MAGNETIC_BOOST * force;
+
+            targetX = centerX;
+            targetY = centerY;
         }
 
-        cursorX += (targetX - cursorX) * 0.15;
-        cursorY += (targetY - cursorY) * 0.15;
+        velocityX += (targetX - cursorX) * strength;
+        velocityY += (targetY - cursorY) * strength;
+
+        velocityX *= FRICTION;
+        velocityY *= FRICTION;
+
+        cursorX += velocityX;
+        cursorY += velocityY;
 
         cursor.style.left = cursorX + 'px';
         cursor.style.top = cursorY + 'px';
@@ -139,7 +169,6 @@ document.addEventListener('DOMContentLoaded', function () {
         'a, button'
     );
 
-    // Text → ring cursor
     textTargets.forEach(el => {
         el.addEventListener('mouseenter', () => {
             cursor.classList.add('cursor--text');
@@ -150,7 +179,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Buttons / links → filled cursor + magnetic
     actionTargets.forEach(el => {
         el.addEventListener('mouseenter', () => {
             isHovering = true;
@@ -165,10 +193,6 @@ document.addEventListener('DOMContentLoaded', function () {
             cursor.classList.remove('cursor--action');
         });
     });
-
-    /* =========================
-       Cursor Visibility
-    ========================= */
 
     document.addEventListener('mouseleave', () => {
         cursor.style.opacity = '0';

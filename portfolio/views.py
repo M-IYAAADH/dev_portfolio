@@ -22,7 +22,7 @@ def index(request):
         },
         {
             'title': 'Work Management System',
-            'description': 'Workflow and procurement management system built with Django and PostgreSQL for enterprise use.',
+            'description': 'Workflow and work management system built with Django and PostgreSQL for enterprise use.',
             'tech': ['Django', 'PostgreSQL', 'JavaScript', 'Bootstrap'],
             'github': 'https://github.com/iyaadh/work-management-system',
             'demo': None,
